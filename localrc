@@ -1,0 +1,106 @@
+# At the moment, we depend on github's snapshot function.
+GIT_BASE="https://github.com"
+
+# Passwords
+# NOTE: these need to be specified, otherwise devstack will try
+# to prompt for these passwords, blocking the install process.
+
+DATABASE_PASSWORD=123456
+SERVICE_TOKEN=123456
+ADMIN_PASSWORD=123456
+SERVICE_PASSWORD=123456
+RABBIT_PASSWORD=123456
+
+# Give extra time for boot
+ACTIVE_TIMEOUT=45
+
+# DevStack settings
+LOGFILE=/tmp/devstack/log/stack.log
+SCREEN_LOGDIR=/tmp/devstack/log/
+# VERBOSE=False
+CLEAN_TEMPLATES=True
+
+# Set the mirror address
+# UBUNTU_INST_HTTP_HOSTNAME="mirrors.163.com"
+# UBUNTU_INST_HTTP_DIRECTORY="/ubuntu"
+NO_UPDATE_REPOS=True
+
+# Cinder configuration
+VOLUME_GROUP="cinder-volumes"
+VOLUME_NAME_PREFIX="volume-"
+VOLUME_BACKING_FILE_SIZE=102500M
+
+# Enable swift
+# enable_service s-proxy s-object s-container s-account
+# SWIFT_REPLICAS=1
+# SWIFT_HASH="66a3d6b56c1f479c8b4e70ab5c2000f5"
+
+# Enable heat
+# enable_service heat h-api h-api-cfn h-api-cw h-eng
+
+# Enable Ceilometer
+enable_plugin ceilometer https://github.com/openstack/ceilometer
+# enable_service ceilometer-acompute ceilometer-acentral ceilometer-anotification ceilometer-collector ceilometer-api
+# enable_service ceilometer-alarm-notifier ceilometer-alarm-evaluator
+# enable_service ceilometer-aipmi
+
+# Enable Neutron
+HOST_IP=100.100.100.35
+FLOATING_RANGE="100.100.100.0/24"
+FIXED_RANGE="10.0.0.0/24"
+Q_FLOATING_ALLOCATION_POOL=start=100.100.100.140,end=100.100.100.180
+PUBLIC_NETWORK_GATEWAY="100.100.100.100"
+PUBLIC_INTERFACE=eno1
+
+Q_USE_SECGROUP=True
+Q_PLUGIN=ml2
+if [ "$Q_PLUGIN" = "ml2" ]; then
+  Q_ML2_TENANT_NETWORK_TYPE=vxlan
+fi
+# ENABLE_TENANT_VLANS=True
+# TENANT_VLAN_RANGE=1100:2999
+# Q_AGENT=openvswitch
+# Q_ML2_PLUGIN_MECHANISM_DRIVERS=openvswitch,linuxbridge,l2population
+# Q_ML2_TENANT_NETWORK_TYPE=gre
+# Q_AGENT_EXTRA_AGENT_OPTS=(tunnel_types=gre)
+
+Q_L3_ENABLED=True
+Q_USE_PROVIDERNET_FOR_PUBLIC=True
+OVS_PHYSICAL_BRIDGE=br-ex
+PUBLIC_BRIDGE=br-ex
+OVS_BRIDGE_MAPPINGS=public:br-ex
+
+ENABLED_SERVICES+=,tempest,q-svc,q-agt,q-dhcp,q-l3,q-meta,q-metering,-n-net
+enable_plugin neutron git://git.openstack.org/openstack/neutron
+enable_service q-qos
+enable_service neutron
+# With XenServer single box install, VLANs need to be enabled
+# ENABLE_TENANT_VLANS="True"
+# OVS_VLAN_RANGES="physnet1:1000:2000"
+
+# Enable magnum
+enable_plugin magnum https://github.com/openstack/magnum
+# enable_plugin magnum-ui https://github.com/openstack/magnum-ui
+
+# Enable
+enable_plugin barbican https://git.openstack.org/openstack/barbican
+
+# Watcher
+# enable_plugin watcher git://git.openstack.org/openstack/watcher
+# enable_plugin watcher-dashboard git://git.openstack.org/openstack/watcher-dashboard
+
+# Murano
+# enable_plugin murano https://git.openstack.org/openstack/murano stable/mitaka
+# MURANO_BRANCH=stable/mitaka
+# MURANO_DASHBOARD_BRANCH=stable/mitaka
+# enable_service murano-cfapi
+
+# Sahara
+# enable_plugin sahara git://git.openstack.org/openstack/sahara stable/mitaka
+# has merged into horizon!! no need anymore
+# enable_plugin sahara-dashboard git://git.openstack.org/openstack/sahara-dashboard stable/mitaka
+
+# Trove
+# enable_plugin trove git://git.openstack.org/openstack/trove stable/mitaka
+# enable_plugin trove-dashboard git://git.openstack.org/openstack/trove-dashboard stable/mitaka
+
