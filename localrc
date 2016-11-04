@@ -31,9 +31,10 @@ VOLUME_NAME_PREFIX="volume-"
 VOLUME_BACKING_FILE_SIZE=102500M
 
 # Enable swift
-# enable_service s-proxy s-object s-container s-account
-# SWIFT_REPLICAS=1
-# SWIFT_HASH="66a3d6b56c1f479c8b4e70ab5c2000f5"
+enable_service s-proxy s-object s-container s-account
+SWIFT_REPLICAS=1
+SWIFT_HASH="66a3d6b56c1f479c8b4e70ab5c2000f5"
+SWIFT_LOOPBACK_DISK_SIZE=256G
 
 # Enable heat
 # enable_service heat h-api h-api-cfn h-api-cw h-eng
@@ -45,7 +46,7 @@ enable_plugin ceilometer https://github.com/openstack/ceilometer
 # enable_service ceilometer-aipmi
 
 # Enable Neutron
-HOST_IP=100.100.100.35
+HOST_IP=100.100.100.34
 FLOATING_RANGE="100.100.100.0/24"
 FIXED_RANGE="10.0.0.0/24"
 Q_FLOATING_ALLOCATION_POOL=start=100.100.100.140,end=100.100.100.180
